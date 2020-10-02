@@ -12,21 +12,11 @@ export default class AboutUs extends React.Component{
         Linking.openURL("https://www.linkedin.com/in/awanikendurkar");
     }
 
-    // //button style change on click
-    // var isPress = React.useState(false);
-    // static touchProps = {
-    //     activeOpacity: 1,
-    //     underlayColor: 'blue',                               // <-- "backgroundColor" will be always overwritten by "underlayColor"
-    //     style: isPress ? styles.btnPress : styles.btnNormal, // <-- but you can still apply other style changes
-    //     onHideUnderlay: () => setIsPress(false),
-    //     onShowUnderlay: () => setIsPress(true),
-    //     onPress: () => console.log('HELLO'),                 // <-- "onPress" is apparently required
-    // };
 
     render(){
     return(
         <View style= {mainstyles.container}>
-            <View style={mainstyles.title}>
+            <View>
 
                 <Text style={mainstyles.texts}>
                     About Us
@@ -39,8 +29,10 @@ export default class AboutUs extends React.Component{
                     About
                 </Text>
                 <Text style = {mainstyles.contenttext}>
-                    This is  COVID dashboard mobile app created in 
-                    lieu of J component of Mobile Application Development
+                    This is a COVID dashboard mobile app created in
+                    accordance with J component of Mobile Application Development, ITE1016. 
+                    The app keeps track of number of cases and displays recent notices and news
+                    about COVID 19.
                 </Text>
                 {/* <Button title="Chinmay" color = "gray" style= {mainstyles.buttons}/> */}
                 <View style = {mainstyles.buttoncontainer}>
@@ -73,12 +65,7 @@ const mainstyles = StyleSheet.create({
         paddingRight: 25,
         paddingLeft: 25
     },
-    // title:{
-    //     flexDirection:"row",
-    //     justifyContent:"center",
-    //     marginTop: '20%',
-    //     backgroundColor:'lightgray',
-    // },
+   
     texts:{
         paddingTop: '20%',
         fontSize: 30,
