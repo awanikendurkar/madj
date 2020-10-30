@@ -1,3 +1,4 @@
+import { Image } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import AboutUs from '../screens/AboutScreen';
 
@@ -14,7 +15,7 @@ const AboutStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
     headerTintColor: '#444',
     headerStyle: {
-      backgroundColor: '#eee',
+      backgroundColor: '#fff',
       height: 80,
     },
   },

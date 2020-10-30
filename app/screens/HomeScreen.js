@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Card, CardContent } from 'react-native-cards';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -34,29 +36,62 @@ export default class Home extends React.Component {
 
   render() {
     const { isLoaded, data } = this.state;
+    //const population = 1380004385;
 
     if (isLoaded) {
       return (
         <View style={styles.container}>
           {/* 4 boxes */}
 
-          <View style={styles.confirmed}>
-            <Text style={styles.boxtitle}>Total Confirmed</Text>
-            <Text style={styles.numbers}>{data[0].confirmed}</Text>
-          </View>
-          <View style={styles.active}>
-            <Text style={styles.boxtitle}>Active</Text>
-            <Text style={styles.numbers}>{data[0].active}</Text>
+          <View style={styles.time}>
+            <Text style={styles.text}>
+              Last updated: {data[0].lastupdatedtime}
+            </Text>
           </View>
 
-          <View style={styles.recovered}>
-            <Text style={styles.boxtitle}>Recovered</Text>
-            <Text style={styles.numbers}>{data[0].recovered}</Text>
-          </View>
-          <View style={styles.deaths}>
-            <Text style={styles.boxtitle}>Deaths</Text>
-            <Text style={styles.numbers}>{data[0].deaths}</Text>
-          </View>
+          <ScrollView>
+            <Card style={styles.confirmedCard}>
+              <CardContent>
+                <Text style={styles.confirmed}>Total Confirmed</Text>
+                <Text style={[styles.confirmed, styles.number]}>
+                  {data[0].confirmed}
+                </Text>
+                <Text style={[styles.confirmed, styles.smallNumber]}>
+                  +{data[0].deltaconfirmed}
+                </Text>
+              </CardContent>
+            </Card>
+            <Card style={styles.activeCard}>
+              <CardContent>
+                <Text style={styles.active}>Active</Text>
+                <Text style={[styles.active, styles.number]}>
+                  {data[0].active}
+                </Text>
+              </CardContent>
+            </Card>
+            <Card style={styles.recoveredCard}>
+              <CardContent>
+                <Text style={styles.recovered}>Recovered</Text>
+                <Text style={[styles.recovered, styles.number]}>
+                  {data[0].recovered}
+                </Text>
+                <Text style={[styles.recovered, styles.smallNumber]}>
+                  +{data[0].deltarecovered}
+                </Text>
+              </CardContent>
+            </Card>
+            <Card style={styles.deathsCard}>
+              <CardContent>
+                <Text style={styles.deaths}>Deaths</Text>
+                <Text style={[styles.deaths, styles.number]}>
+                  {data[0].deaths}
+                </Text>
+                <Text style={[styles.deaths, styles.smallNumber]}>
+                  +{data[0].deltadeaths}
+                </Text>
+              </CardContent>
+            </Card>
+          </ScrollView>
         </View>
       );
     } else {
@@ -64,95 +99,86 @@ export default class Home extends React.Component {
     }
   }
 }
+
 const bgcolor = '#fff';
-const green = '#77C483';
-const red = '#F29499';
-const blue = '#5EA3F8';
+const red = '#ED3D3F';
+const blue = '#177AF6';
+const grey = '#6D767E';
+const green = '#4CA747';
+const size = 25;
+
 const styles = StyleSheet.create({
   container: {
-    fontFamily: 'nunito-regular',
     flex: 1,
     height: '100%',
-    flexDirection: 'row',
-    alignContent: 'center',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    paddingLeft: '5%',
-    paddingRight: '5%',
-    justifyContent: 'space-between',
-    backgroundColor: '#fff',
-  },
-
-  button: {
-    alignSelf: 'center',
     fontFamily: 'nunito-regular',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 5,
-    margin: 5,
-    color: '#D6D6D6',
+    padding: 24,
+    backgroundColor: bgcolor,
   },
-
-  pagetitle: {
-    fontFamily: 'nunito-regular',
-    width: '100%',
-    fontSize: 30,
-    fontWeight: 'bold',
+  text: {
+    padding: 6,
+    fontSize: 18,
+    color: grey,
     textAlign: 'center',
-    alignSelf: 'center',
-    bottom: 5,
   },
-  boxtitle: {
-    fontFamily: 'nunito-regular',
-    fontSize: 16,
-    fontWeight: 'bold',
+  number: {
+    fontFamily: 'nunito-bold',
+    fontSize: size + 8,
   },
-  numbers: {
-    fontFamily: 'nunito-regular',
-    fontSize: 25,
+  smallNumber: {
+    fontSize: size - 8,
   },
+  time: {
+    paddingTop: 20,
+    paddingBottom: 24,
+  },
+  // data styling
   active: {
     fontFamily: 'nunito-regular',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: blue,
-    width: '50%',
-    height: '25%',
-    borderWidth: 8,
-    borderColor: bgcolor,
-    borderRadius: 20,
+    color: red,
+    fontSize: size,
+    textAlign: 'center',
   },
   confirmed: {
     fontFamily: 'nunito-regular',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'lightgray',
-    width: '50%',
-    height: '25%',
-    borderWidth: 8,
-    borderColor: bgcolor,
-    borderRadius: 20,
-  },
-  recovered: {
-    fontFamily: 'nunito-regular',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: green,
-    width: '50%',
-    height: '25%',
-    borderWidth: 8,
-    borderColor: bgcolor,
-    borderRadius: 20,
+    color: blue,
+    fontSize: size,
+    textAlign: 'center',
   },
   deaths: {
     fontFamily: 'nunito-regular',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: red,
-    width: '50%',
-    height: '25%',
-    borderWidth: 8,
-    borderColor: bgcolor,
-    borderRadius: 20,
+    color: grey,
+    fontSize: size,
+    textAlign: 'center',
+  },
+  recovered: {
+    fontFamily: 'nunito-regular',
+    color: green,
+    fontSize: size,
+    textAlign: 'center',
+  },
+  confirmedCard: {
+    backgroundColor: '#D3E6FC',
+    margin: 10,
+    padding: 15,
+    paddingTop: 25,
+  },
+  activeCard: {
+    backgroundColor: '#FAE0E2',
+    margin: 10,
+    padding: 15,
+    paddingTop: 25,
+  },
+  recoveredCard: {
+    backgroundColor: '#E3F3E6',
+    margin: 10,
+    padding: 15,
+    paddingTop: 25,
+  },
+  deathsCard: {
+    backgroundColor: '#F6F6F7',
+    margin: 10,
+    padding: 15,
+    paddingTop: 25,
   },
 });

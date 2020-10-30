@@ -17,7 +17,7 @@ export default function Header({ navigation }) {
       />
 
       <View>
-        <Text style={styles.headerText}>COVID-19</Text>
+        <Text style={styles.headerText}>COVID-19 Dashboard</Text>
       </View>
     </View>
   );
@@ -32,14 +32,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerText: {
-    fontFamily: 'nunito-regular',
+    fontFamily: 'nunito-bold',
     fontWeight: 'bold',
     fontSize: 20,
-    color: '#333',
-    letterSpacing: 1,
+    color: '#000',
+    letterSpacing: 0.5,
   },
   icon: {
     position: 'absolute',
-    left: 12,
+    left: -20,
   },
 });

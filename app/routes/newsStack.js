@@ -14,7 +14,7 @@ const NewsStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
     headerTintColor: '#444',
     headerStyle: {
-      backgroundColor: '#eee',
+      backgroundColor: '#fff',
       height: 80,
     },
   },

@@ -8,8 +8,14 @@ import {
   ActivityIndicator,
   FlatList,
 } from 'react-native';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
+import {
+  Card,
+  CardTitle,
+  CardContent,
+  CardAction,
+  CardButton,
+  CardImage,
+} from 'react-native-cards';
 
 export default class Statewise extends React.Component {
   //state is created to store variables
@@ -19,9 +25,6 @@ export default class Statewise extends React.Component {
     this.state = {
       data: [],
       isLoading: true,
-      location: null,
-      geocode: null,
-      errorMessage: '',
     };
   }
   //this function takes input from TextInput and stores in state
@@ -29,28 +32,6 @@ export default class Statewise extends React.Component {
   //   this.setState({ state: inputtext });
   //   // console.log(this.state.state);
   // };
-
-  // location
-  getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        errorMessage: 'Permission to access location was denied',
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Lowest,
-    });
-    const { latitude, longitude } = location.coords;
-    this.getGeocodeAsync({ latitude, longitude });
-    this.setState({ location: { latitude, longitude } });
-  };
-
-  getGeocodeAsync = async (location) => {
-    let geocode = await Location.reverseGeocodeAsync(location);
-    this.setState({ geocode });
-  };
 
   // TRIAL
   componentDidMount() {
@@ -67,147 +48,84 @@ export default class Statewise extends React.Component {
 
   render() {
     const { data, isLoading } = this.state;
-    const { location, geocode, errorMessage } = this.state;
-    if (!isLoading) {
-      return (
-        // CHANGE STYLES HERE
-        <View style={{ flex: 1, padding: 24 }}>
-          <Text style={styles.text}>
-            Location detected:
-            {geocode[0].city}
-          </Text>
 
-          {/* {isLoading ? (
-            <ActivityIndicator />
-          ) : (
-            <FlatList
-              data={data}
-              keyExtractor={({ statecode }, index) => statecode}
-              renderItem={({ item }) => (
-                <Text>
-                  {item.state}: {item.active}
-                </Text>
-              )}
-            />
-          )} */}
-        </View>
-      );
-    } else {
-      return <Text>Is loading</Text>;
-    }
+    return (
+      // CHANGE STYLES HERE
+      <View style={styles.container}>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <FlatList
+            data={data}
+            keyExtractor={({ statecode }, index) => statecode}
+            renderItem={({ item }) => (
+              <Card>
+                <CardTitle title={item.state} />
+                <CardContent>
+                  <Text style={styles.confirmed}>
+                    Confirmed: {item.confirmed}
+                  </Text>
+                  <Text style={styles.active}>Active: {item.active}</Text>
+                  <Text style={styles.recovered}>
+                    Recovered: {item.recovered}
+                  </Text>
+                  <Text style={styles.deaths}>Deaths: {item.deaths}</Text>
+                </CardContent>
+              </Card>
+            )}
+          />
+        )}
+      </View>
+    );
   }
 }
 
 const bgcolor = '#fff';
+const red = '#ED3D3F';
+const blue = '#177AF6';
+const grey = '#6D767E';
+const green = '#4CA747';
+const size = 16;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: '100%',
     fontFamily: 'nunito-regular',
+    padding: 10,
+    backgroundColor: bgcolor,
+  },
+  item: {
+    height: 50,
+    backgroundColor: 'lightgray',
+    padding: 5,
+    margin: 5,
+    //borderRadius: 20,
   },
   text: {
+    padding: 6,
     fontFamily: 'nunito-regular',
+    fontSize: 18,
   },
-  findState: {
-    fontFamily: 'nunito-regular',
-    paddingLeft: '5%',
-    paddingRight: '5%',
-    paddingTop: '5%',
-  },
-  boxcontainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignContent: 'center',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    paddingLeft: '2%',
-    paddingRight: '2%',
-    fontFamily: 'nunito-regular',
-  },
-  pagetitle: {
-    width: '100%',
-    fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: '15%',
-    alignSelf: 'center',
-    bottom: 5,
-    fontFamily: 'nunito-regular',
-  },
-  label: {
-    fontSize: 20,
-    fontFamily: 'nunito-regular',
-  },
-  input: {
-    backgroundColor: 'lightgray',
-    borderRadius: 50,
-    padding: '2%',
-    top: '1%',
-    height: '20%',
-    fontFamily: 'nunito-regular',
-  },
-  button: {
-    borderRadius: 50,
-    top: '7%',
-    bottom: '5%',
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    backgroundColor: 'lightgray',
-    padding: 10,
-    fontFamily: 'nunito-regular',
-  },
-  boxtitle: {
-    fontFamily: 'nunito-regular',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  numbers: {
-    fontSize: 25,
-    fontFamily: 'nunito-regular',
-  },
+  // data styling
   active: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'hsla(181, 77%, 31%, 0.7)',
-    width: '50%',
-    height: '30%',
-    borderWidth: 8,
-    borderColor: bgcolor,
-    borderRadius: 20,
     fontFamily: 'nunito-regular',
+    color: red,
+    fontSize: size,
   },
   confirmed: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'lightgray',
-    width: '50%',
-    height: '30%',
-    borderWidth: 8,
-    borderColor: bgcolor,
-    borderRadius: 20,
     fontFamily: 'nunito-regular',
-  },
-  recovered: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'hsl(90, 68%, 33%)',
-    width: '50%',
-    height: '30%',
-    borderWidth: 8,
-    borderColor: bgcolor,
-    borderRadius: 20,
-    fontFamily: 'nunito-regular',
+    color: blue,
+    fontSize: size,
   },
   deaths: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#E8070A',
-    width: '50%',
-    height: '30%',
-    borderWidth: 8,
-    borderColor: bgcolor,
-    borderRadius: 20,
     fontFamily: 'nunito-regular',
+    color: grey,
+    fontSize: size,
+  },
+  recovered: {
+    fontFamily: 'nunito-regular',
+    color: green,
+    fontSize: size,
   },
 });
