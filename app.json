@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./app/assets/covid.png",
     "splash": {
-      "image": "./app/assets/covid.png",
+      "image": "./app/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -5,67 +5,96 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
+  FlatList,
 } from 'react-native';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 export default class Statewise extends React.Component {
   //state is created to store variables
   constructor(props) {
     super(props);
+
     this.state = {
-      state: '',
-      active: '-',
-      confirmed: '-',
-      deaths: '-',
-      recovered: '-',
-      isLoaded: false,
+      data: [],
+      isLoading: true,
+      location: null,
+      geocode: null,
+      errorMessage: '',
     };
   }
   //this function takes input from TextInput and stores in state
-  handleinput = (inputtext) => {
-    this.setState({ state: inputtext });
-    // console.log(this.state.state);
+  // handleinput = (inputtext) => {
+  //   this.setState({ state: inputtext });
+  //   // console.log(this.state.state);
+  // };
+
+  // location
+  getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Lowest,
+    });
+    const { latitude, longitude } = location.coords;
+    this.getGeocodeAsync({ latitude, longitude });
+    this.setState({ location: { latitude, longitude } });
   };
 
+  getGeocodeAsync = async (location) => {
+    let geocode = await Location.reverseGeocodeAsync(location);
+    this.setState({ geocode });
+  };
+
+  // TRIAL
+  componentDidMount() {
+    fetch('https://api.covid19india.org/data.json')
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({ data: json.statewise });
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        this.setState({ isLoading: false });
+      });
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.findState}>
-          <Text style={styles.label}>Search for a state</Text>
-          <TextInput
-            placeholder='Search for a state...'
-            onChangeText={this.handleinput}
-            style={styles.input}
-          />
-          <TouchableOpacity
-            activeOpacity={1}
-            style={styles.button}
-            onPress={this.getstatedata}
-          >
-            <Text style={styles.text}>Submit</Text>
-          </TouchableOpacity>
-        </View>
+    const { data, isLoading } = this.state;
+    const { location, geocode, errorMessage } = this.state;
+    if (!isLoading) {
+      return (
+        // CHANGE STYLES HERE
+        <View style={{ flex: 1, padding: 24 }}>
+          <Text style={styles.text}>
+            Location detected:
+            {geocode[0].city}
+          </Text>
 
-        <View style={styles.boxcontainer}>
-          <View style={styles.confirmed}>
-            <Text style={styles.boxtitle}>Total Confirmed</Text>
-            <Text style={styles.numbers}>9999</Text>
-          </View>
-          <View style={styles.active}>
-            <Text style={styles.boxtitle}>Active</Text>
-            <Text style={styles.numbers}>9999</Text>
-          </View>
-
-          <View style={styles.recovered}>
-            <Text style={styles.boxtitle}>Recovered</Text>
-            <Text style={styles.numbers}>9999</Text>
-          </View>
-          <View style={styles.deaths}>
-            <Text style={styles.boxtitle}>Deaths</Text>
-            <Text style={styles.numbers}>9999</Text>
-          </View>
+          {/* {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <FlatList
+              data={data}
+              keyExtractor={({ statecode }, index) => statecode}
+              renderItem={({ item }) => (
+                <Text>
+                  {item.state}: {item.active}
+                </Text>
+              )}
+            />
+          )} */}
         </View>
-      </View>
-    );
+      );
+    } else {
+      return <Text>Is loading</Text>;
+    }
   }
 }
 
