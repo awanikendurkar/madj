@@ -9,9 +9,10 @@ import Statewise from './app/screens/StateScreen';
 
 const getFonts = () => {
   return Font.loadAsync({
+    'nunito-italic': require('./app/assets/fonts/Nunito-ExtraLightItalic.ttf'),
+    'cursive-custom': require('./app/assets/fonts/Cursive-Font.ttf'),
     'nunito-regular': require('./app/assets/fonts/Nunito-Regular.ttf'),
     'nunito-bold': require('./app/assets/fonts/Nunito-Bold.ttf'),
-    'nunito-italic': require('./app/assets/fonts/Nunito-ExtraLightItalic.ttf'),
   });
 };
 

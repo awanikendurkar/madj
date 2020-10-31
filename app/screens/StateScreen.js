@@ -53,7 +53,7 @@ export default class Statewise extends React.Component {
       // CHANGE STYLES HERE
       <View style={styles.container}>
         {isLoading ? (
-          <ActivityIndicator />
+          <ActivityIndicator size='large' color='#EE6565' />
         ) : (
           <FlatList
             data={data}

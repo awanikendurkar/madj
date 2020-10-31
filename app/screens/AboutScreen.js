@@ -5,145 +5,186 @@ import {
   View,
   Text,
   Image,
-  Button,
   TouchableOpacity,
   Linking,
   TouchableHighlight,
+  ScrollView,
+  FlatList,
 } from 'react-native';
+import { Avatar, Accessory, ListItem, Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-// function WelcomeScreen(props){
 export default class AboutUs extends React.Component {
-  onclickfun1 = () => {
-    console.log('clicked');
+  onclickChinmay = () => {
+    console.log("Redirecting to Chinmay's LinkedIn");
     Linking.openURL('https://www.linkedin.com/in/chinmay-nrusingh-choudhury');
   };
-  onclickfun2 = () => {
-    console.log('clicked');
+  onclickAwani = () => {
+    console.log("Redirecting to Awani's LinkedIn");
     Linking.openURL('https://www.linkedin.com/in/awanikendurkar');
+  };
+  onclickGithub = () => {
+    console.log('Redirecting to Github repository');
+    Linking.openURL('https://github.com/awanikendurkar/madj');
+  };
+  onclickAPI = () => {
+    console.log('Redirecting to API webpage');
+    Linking.openURL('https://api.covid19india.org/');
   };
 
   render() {
     return (
-      <View style={mainstyles.container}>
+      <ScrollView style={styles.container}>
         <View>
-          <Text style={mainstyles.texts}>About Us</Text>
+          <Text style={styles.title}>About the app</Text>
+        </View>
+        <View>
+          <Text style={styles.text}>
+            COVID-19 Dashboard is a mobile application based on hybrid app
+            development. This app is an intuitive user interface that provides
+            data pertaining to the pandemic.
+          </Text>
+          <Text style={styles.text}>
+            The aim is to provide a platform that displays the number of active
+            cases of the coronavirus disease, along with the number of recovered
+            patients and the death toll. This data can be viewed in various
+            forms: state-wise, time period wise or according to daily changes.
+          </Text>
+          <Text style={styles.text}>
+            The app is built using React Native, an open-source mobile
+            application framework created and maintained by Facebook. It is used
+            to create native apps for Android and iOS by enabling developers to
+            use React along with native platform capabilities. The relevant data
+            has been retrieved using an API provided by a volunteer-driven,
+            crowd-sourced database for COVID-19 stats.
+          </Text>
+        </View>
+        <View>
+          <Text style={styles.title}>Developers</Text>
+        </View>
+        <View>
+          <ListItem bottomDivider onPress={this.onclickAwani}>
+            <Image
+              style={{
+                width: 51,
+                height: 51,
+                resizeMode: 'contain',
+              }}
+              source={require('../assets/Awani.jpeg')}
+            />
+            <ListItem.Content>
+              <ListItem.Title style={styles.name}>
+                Awani Kendurkar
+              </ListItem.Title>
+              <ListItem.Subtitle style={styles.nameText}>
+                React Native Developer
+              </ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem>
+          <ListItem bottomDivider onPress={this.onclickChinmay}>
+            <Image
+              style={{
+                width: 51,
+                height: 51,
+                resizeMode: 'contain',
+              }}
+              source={require('../assets/Chinmay.jpg')}
+            />
+            <ListItem.Content>
+              <ListItem.Title style={styles.name}>
+                Chinmay Nrusingh Choudhury
+              </ListItem.Title>
+              <ListItem.Subtitle style={styles.nameText}>
+                React Native Developer
+              </ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem>
         </View>
 
-        <View style={mainstyles.content}>
-          <Image
-            style={mainstyles.image}
-            source={require('../assets/covid.png')}
+        <View style={{ margin: 20 }}>
+          <Button
+            icon={
+              <Icon
+                name='github'
+                size={23}
+                color='#2B88DD'
+                style={styles.icon}
+              />
+            }
+            style={styles.button}
+            title='Visit Repository'
+            type='outline'
+            onPress={this.onclickGithub}
           />
-          <Text style={mainstyles.contenttitle}>About</Text>
-          <Text style={mainstyles.contenttext}>
-            This is a COVID dashboard mobile app created in accordance with J
-            component of Mobile Application Development, ITE1016. The app keeps
-            track of number of cases and displays recent notices and news about
-            COVID 19.
-          </Text>
-          {/* <Button title="Chinmay" color = "gray" style= {mainstyles.buttons}/> */}
-          <View style={mainstyles.buttoncontainer}>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={mainstyles.button1}
-              onPress={this.onclickfun1}
-            >
-              <Text>Chinmay</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={mainstyles.button2}
-              onPress={this.onclickfun2}
-            >
-              <Text>Awani</Text>
-            </TouchableOpacity>
-          </View>
+          <Button
+            icon={
+              <Icon
+                name='database'
+                size={20}
+                color='#2B88DD'
+                style={styles.icon}
+              />
+            }
+            style={styles.button}
+            title='Visit API Webpage'
+            type='outline'
+            onPress={this.onclickAPI}
+          />
         </View>
-      </View>
+        <View style={styles.blank}></View>
+      </ScrollView>
     );
   }
 }
 
-const mainstyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: '100%',
     backgroundColor: '#fff',
-    alignItems: 'center',
-    paddingRight: 25,
-    paddingLeft: 25,
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    //alignItems: 'center',
+    padding: 25,
+    paddingBottom: 100,
+    //paddingLeft: 25,
   },
-
-  texts: {
-    paddingTop: '20%',
+  name: {
+    fontFamily: 'nunito-bold',
+    fontSize: 16,
+  },
+  nameText: {
+    fontFamily: 'nunito-regular',
+    fontSize: 16,
+  },
+  text: {
+    fontFamily: 'nunito-regular',
+    fontSize: 16,
+    textAlign: 'justify',
+    paddingTop: 15,
+  },
+  title: {
+    fontFamily: 'nunito-bold',
     fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 15,
-    width: 200,
-  },
-  content: {
-    padding: 12,
-    paddingBottom: 10,
-    height: '45%',
-    top: '10%',
-    // flex: 1,
-    flexDirection: 'column',
-    borderColor: 'lightgray',
-    borderWidth: 0.7,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: 'grey'
-  },
-  contenttitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'gray',
-    alignSelf: 'flex-start',
-    flexDirection: 'row',
-  },
-  contenttext: {
-    color: 'black',
-    top: '2%',
+    paddingTop: 20,
   },
   image: {
-    // height: '30%', width:'30%',
+    height: 5,
+    width: 5,
+    backgroundColor: '#fff',
     flex: 1,
-    // flexWrap: "wrap",
     aspectRatio: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    // borderColor: 'lightgray',
-    // borderWidth: .5
   },
-  buttoncontainer: {
-    // top: "0%",
-    flex: 0.5,
-    // height:"5%",
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    // backgroundColor: 'lightgray'
+  blank: {
+    height: 80,
   },
-  button1: {
-    borderRadius: 50,
-    top: '5%',
-    bottom: '5%',
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    backgroundColor: 'lightgray',
-    padding: 10,
+  button: {
+    margin: 5,
   },
-  button2: {
-    borderRadius: 50,
-    top: '5%',
-    bottom: '5%',
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    backgroundColor: 'lightgray',
-    padding: 10,
-    left: '2%',
+  icon: {
+    margin: 8,
   },
 });
-
-// export default WelcomeScreen;
