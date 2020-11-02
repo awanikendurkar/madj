@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { Card, CardContent } from 'react-native-cards';
 import { ScrollView } from 'react-native-gesture-handler';
+import MainTabScreen from './MainTabScreen';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class Home extends React.Component {
     };
   }
 
-  //use of api to fetch covid data
+  // use of api to fetch covid data
   componentDidMount() {
     fetch('https://api.covid19india.org/data.json')
       .then((res) => res.json())
@@ -92,10 +93,11 @@ export default class Home extends React.Component {
               </CardContent>
             </Card>
           </ScrollView>
+          {/* <MainTabScreen /> */}
         </View>
       );
     } else {
-      return <Text>Is loading</Text>;
+      return <ActivityIndicator size='large' color='#EE6565' />;
     }
   }
 }

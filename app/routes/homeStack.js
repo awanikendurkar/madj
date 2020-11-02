@@ -21,10 +21,10 @@ const screens = {
       title: 'Statewise Data',
     },
   },
-  News: {
+  Contact: {
     screen: NewsScreen,
     navigationOptions: {
-      title: 'News',
+      title: 'Contact Us',
     },
   },
   About: {

@@ -12,7 +12,7 @@ const RootDrawerNavigator = createDrawerNavigator({
   State: {
     screen: StateStack,
   },
-  News: {
+  Contact: {
     screen: NewsStack,
   },
   About: {

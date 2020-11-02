@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import * as Font from 'expo-font';
-import LandingPage from './app/screens/LandingScreen';
-import Home from './app/screens/HomeScreen';
 import { AppLoading } from 'expo';
-import AboutUs from './app/screens/AboutScreen';
 import Navigator from './app/routes/drawer';
-import Statewise from './app/screens/StateScreen';
 
 const getFonts = () => {
   return Font.loadAsync({

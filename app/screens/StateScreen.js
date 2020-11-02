@@ -50,7 +50,6 @@ export default class Statewise extends React.Component {
     const { data, isLoading } = this.state;
 
     return (
-      // CHANGE STYLES HERE
       <View style={styles.container}>
         {isLoading ? (
           <ActivityIndicator size='large' color='#EE6565' />
@@ -60,7 +59,7 @@ export default class Statewise extends React.Component {
             keyExtractor={({ statecode }, index) => statecode}
             renderItem={({ item }) => (
               <Card>
-                <CardTitle title={item.state} />
+                <CardTitle style={styles.title} title={item.state} />
                 <CardContent>
                   <Text style={styles.confirmed}>
                     Confirmed: {item.confirmed}
@@ -109,22 +108,22 @@ const styles = StyleSheet.create({
   },
   // data styling
   active: {
-    fontFamily: 'nunito-regular',
+    fontFamily: 'nunito-bold',
     color: red,
     fontSize: size,
   },
   confirmed: {
-    fontFamily: 'nunito-regular',
+    fontFamily: 'nunito-bold',
     color: blue,
     fontSize: size,
   },
   deaths: {
-    fontFamily: 'nunito-regular',
+    fontFamily: 'nunito-bold',
     color: grey,
     fontSize: size,
   },
   recovered: {
-    fontFamily: 'nunito-regular',
+    fontFamily: 'nunito-bold',
     color: green,
     fontSize: size,
   },

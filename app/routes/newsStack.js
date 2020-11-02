@@ -2,10 +2,10 @@ import { createStackNavigator } from 'react-navigation-stack';
 import NewsScreen from '../screens/NewsScreen';
 
 const screens = {
-  State: {
+  Contact: {
     screen: NewsScreen,
     navigationOptions: {
-      title: 'News',
+      title: 'Contact Us',
     },
   },
 };
