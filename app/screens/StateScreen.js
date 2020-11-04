@@ -7,6 +7,7 @@ import {
   TextInput,
   ActivityIndicator,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import {
   Card,
@@ -16,24 +17,24 @@ import {
   CardButton,
   CardImage,
 } from 'react-native-cards';
+import SearchInput, { createFilter } from 'react-native-search-filter';
+const KEYS_TO_FILTERS = ['state', 'statecode'];
 
 export default class Statewise extends React.Component {
-  //state is created to store variables
   constructor(props) {
     super(props);
 
     this.state = {
       data: [],
       isLoading: true,
+      searchTerm: '',
     };
   }
-  //this function takes input from TextInput and stores in state
-  // handleinput = (inputtext) => {
-  //   this.setState({ state: inputtext });
-  //   // console.log(this.state.state);
-  // };
 
-  // TRIAL
+  searchUpdated(term) {
+    this.setState({ searchTerm: term });
+  }
+
   componentDidMount() {
     fetch('https://api.covid19india.org/data.json')
       .then((response) => response.json())
@@ -48,31 +49,67 @@ export default class Statewise extends React.Component {
 
   render() {
     const { data, isLoading } = this.state;
+    const filteredStates = data.filter(
+      createFilter(this.state.searchTerm, KEYS_TO_FILTERS)
+    );
 
     return (
       <View style={styles.container}>
         {isLoading ? (
           <ActivityIndicator size='large' color='#EE6565' />
         ) : (
-          <FlatList
-            data={data}
-            keyExtractor={({ statecode }, index) => statecode}
-            renderItem={({ item }) => (
-              <Card>
-                <CardTitle style={styles.title} title={item.state} />
-                <CardContent>
-                  <Text style={styles.confirmed}>
-                    Confirmed: {item.confirmed}
-                  </Text>
-                  <Text style={styles.active}>Active: {item.active}</Text>
-                  <Text style={styles.recovered}>
-                    Recovered: {item.recovered}
-                  </Text>
-                  <Text style={styles.deaths}>Deaths: {item.deaths}</Text>
-                </CardContent>
-              </Card>
-            )}
-          />
+          <View>
+            <SearchInput
+              onChangeText={(term) => {
+                this.searchUpdated(term);
+              }}
+              style={styles.searchInput}
+              placeholder='Enter state name or state code...'
+            />
+            {/* <FlatList
+              data={data}
+              keyExtractor={({ statecode }, index) => statecode}
+              renderItem={({ item }) => (
+                <Card>
+                  <CardTitle style={styles.title} title={item.state} />
+                  <CardContent>
+                    <Text style={styles.confirmed}>
+                      Confirmed: {item.confirmed}
+                    </Text>
+                    <Text style={styles.active}>Active: {item.active}</Text>
+                    <Text style={styles.recovered}>
+                      Recovered: {item.recovered}
+                    </Text>
+                    <Text style={styles.deaths}>Deaths: {item.deaths}</Text>
+                  </CardContent>
+                </Card>
+              )}
+            /> */}
+            <ScrollView>
+              {filteredStates.map((item) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => alert(item.state)}
+                    key={item.statecode}
+                  >
+                    <Card>
+                      <CardTitle style={styles.title} title={item.state} />
+                      <CardContent>
+                        <Text style={styles.confirmed}>
+                          Confirmed: {item.confirmed}
+                        </Text>
+                        <Text style={styles.active}>Active: {item.active}</Text>
+                        <Text style={styles.recovered}>
+                          Recovered: {item.recovered}
+                        </Text>
+                        <Text style={styles.deaths}>Deaths: {item.deaths}</Text>
+                      </CardContent>
+                    </Card>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
         )}
       </View>
     );
@@ -104,6 +141,15 @@ const styles = StyleSheet.create({
   text: {
     padding: 6,
     fontFamily: 'nunito-regular',
+    fontSize: 18,
+  },
+  searchInput: {
+    padding: 10,
+    margin: 10,
+    borderColor: 'lightgray',
+    borderWidth: 1,
+    fontFamily: 'nunito-regular',
+    borderRadius: 6,
     fontSize: 18,
   },
   // data styling

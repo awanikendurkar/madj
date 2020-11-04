@@ -5,12 +5,12 @@ import { Button } from 'react-native-elements';
 
 export default function NewsScreen() {
   const [msgs, setMsgs] = useState(['']);
-  const addMsg = (msg) => {
-    msg.key = Math.random().toString();
-    setMsgs((currentMsgs) => {
-      return [msg, ...currentMsgs];
-    });
-  };
+  // const addMsg = (msg) => {
+  //   msg.key = Math.random().toString();
+  //   setMsgs((currentMsgs) => {
+  //     return [msg, ...currentMsgs];
+  //   });
+  // };
   return (
     <View style={styles.container}>
       <Formik
