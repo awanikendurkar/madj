@@ -18,6 +18,8 @@ import {
   CardImage,
 } from 'react-native-cards';
 import SearchInput, { createFilter } from 'react-native-search-filter';
+import { MaterialIcons } from '@expo/vector-icons';
+import { SearchBar } from 'react-native-elements';
 const KEYS_TO_FILTERS = ['state', 'statecode'];
 
 export default class Statewise extends React.Component {
@@ -59,32 +61,22 @@ export default class Statewise extends React.Component {
           <ActivityIndicator size='large' color='#EE6565' />
         ) : (
           <View>
+            {/* <View style={styles.header}> */}
+            {/* <MaterialIcons name='search' size={28} style={styles.icon} /> */}
+
             <SearchInput
               onChangeText={(term) => {
                 this.searchUpdated(term);
               }}
               style={styles.searchInput}
               placeholder='Enter state name or state code...'
+              clearIcon={
+                this.state.searchTerm !== '' && (
+                  <MaterialIcons name='clear' size={28} />
+                )
+              }
             />
-            {/* <FlatList
-              data={data}
-              keyExtractor={({ statecode }, index) => statecode}
-              renderItem={({ item }) => (
-                <Card>
-                  <CardTitle style={styles.title} title={item.state} />
-                  <CardContent>
-                    <Text style={styles.confirmed}>
-                      Confirmed: {item.confirmed}
-                    </Text>
-                    <Text style={styles.active}>Active: {item.active}</Text>
-                    <Text style={styles.recovered}>
-                      Recovered: {item.recovered}
-                    </Text>
-                    <Text style={styles.deaths}>Deaths: {item.deaths}</Text>
-                  </CardContent>
-                </Card>
-              )}
-            /> */}
+            {/* </View> */}
             <ScrollView>
               {filteredStates.map((item) => {
                 return (
@@ -144,6 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   searchInput: {
+    backgroundColor: bgcolor,
     padding: 10,
     margin: 10,
     borderColor: 'lightgray',
@@ -151,6 +144,16 @@ const styles = StyleSheet.create({
     fontFamily: 'nunito-regular',
     borderRadius: 6,
     fontSize: 18,
+  },
+  header: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  icon: {
+    position: 'absolute',
+    left: 1,
   },
   // data styling
   active: {

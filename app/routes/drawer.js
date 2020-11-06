@@ -4,6 +4,7 @@ import HomeStack from './homeStack';
 import AboutStack from './aboutStack';
 import StateStack from './stateStack';
 import NewsStack from './newsStack';
+//import customDrawer from './customDrawer';
 
 const RootDrawerNavigator = createDrawerNavigator({
   Home: {

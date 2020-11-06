@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { Card, CardContent } from 'react-native-cards';
 import { ScrollView } from 'react-native-gesture-handler';
-import MainTabScreen from './MainTabScreen';
 
 export default class Home extends React.Component {
   constructor(props) {
