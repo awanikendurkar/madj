@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Formik } from 'formik';
 import { Button } from 'react-native-elements';
 
-export default function ContactScreen() {
+export default function ContactForm({ addReview }) {
+  // const [reviews, setReviews ] = useState([
+  //   { title: 'Awani', rating: 5, body: 'This is a test msg', key: '1'},
+  // ]);
+
+  // const addReview = (review) => {
+  //   review.key = Math.random().toString();
+  //   setReviews((currentReviews) => {
+  //     return [review, ...currentReviews]
+  //   });
+  // }
   return (
     <View style={styles.container}>
       <Formik
         initialValues={{ title: '', body: '', rating: '' }}
         onSubmit={(values) => {
+          addReview(values);
           console.log(values);
         }}
       >
@@ -23,7 +34,7 @@ export default function ContactScreen() {
             <TextInput
               multiline
               style={styles.input}
-              placeholder='Drop us a message!'
+              placeholder='Your message'
               onChangeText={props.handleChange('body')}
               value={props.values.body}
             />
@@ -37,6 +48,7 @@ export default function ContactScreen() {
             <Button
               type='outline'
               title='Send'
+              // color='maroon'
               onPress={props.handleSubmit}
               style={styles.button}
             />

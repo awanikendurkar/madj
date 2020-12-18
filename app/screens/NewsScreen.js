@@ -2,50 +2,20 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Formik } from 'formik';
 import { Button } from 'react-native-elements';
+import ContactForm from './ContactForm';
 
 export default function NewsScreen() {
-  return (
-    <View style={styles.container}>
-      <Formik
-        initialValues={{ title: '', body: '', rating: '' }}
-        onSubmit={(values) => {
-          console.log(values);
-        }}
-      >
-        {(props) => (
-          <View>
-            <TextInput
-              style={styles.input}
-              placeholder='Your name'
-              onChangeText={props.handleChange('title')}
-              value={props.values.title}
-            />
-            <TextInput
-              multiline
-              style={styles.input}
-              placeholder='Your message'
-              onChangeText={props.handleChange('body')}
-              value={props.values.body}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder='Rate the app! (1-5)'
-              onChangeText={props.handleChange('rating')}
-              value={props.values.rating}
-              keyboardType='numeric'
-            />
-            <Button
-              type='outline'
-              title='Send'
-              // color='maroon'
-              onPress={props.handleSubmit}
-              style={styles.button}
-            />
-          </View>
-        )}
-      </Formik>
-    </View>
-  );
+  const [reviews, setReviews] = useState([
+    { title: 'Awani', rating: 5, body: 'This is a test msg', key: '1' },
+  ]);
+
+  const addReview = (review) => {
+    review.key = Math.random().toString();
+    setReviews((currentReviews) => {
+      return [review, ...currentReviews];
+    });
+  };
+  return <ContactForm addReview={addReview} />;
 }
 
 const styles = StyleSheet.create({
